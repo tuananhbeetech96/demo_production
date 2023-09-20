@@ -8,10 +8,10 @@ class BlocDi {
   BlocDi._();
 
   static Future<void> init(GetIt injector) async {
-    injector.registerLazySingleton(() => AppBloc(injector()));
+    injector.registerLazySingleton(() => AppBloc());
     injector.registerFactory(() => SplashBloc(injector()));
     injector.registerFactory(() => HomeBloc(injector()));
     injector.registerFactory(() => LoginBloc(injector(), injector()));
-    injector.registerFactory(() => ProductManagementBloc(injector()));
+    injector.registerFactory(() => ProductManagementBloc(injector(), injector(), injector(), injector()));
   }
 }

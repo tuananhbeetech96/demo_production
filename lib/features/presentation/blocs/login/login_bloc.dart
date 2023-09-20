@@ -34,10 +34,14 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     emitter(state.copyWith(isLoading: true));
     (await _getLoginUseCase(LoginRequestModel(mailaddress: getLoginEvent.mail, password: getLoginEvent.pass))).fold((data) {
       print(data?.data?.token);
-      if(data != null){
-          _sharedPreferences.user = data.data;
+      if(data?.statusCode == 200){
+        if(data?.data != null){
+          _sharedPreferences.user = data?.data;
+        }
+        emitter(state.copyWith(success: true, user: data?.data));
+      } else {
+        emitter(state.copyWith());
       }
-      emitter(state.copyWith(success: true, user: data?.data));
     }, (error) {
       emitter(state.copyWith(error: error));
     });

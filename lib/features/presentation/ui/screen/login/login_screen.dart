@@ -211,7 +211,7 @@ class _LoginScreenState extends BaseScreenState<LoginScreen, LoginBloc, LoginSta
   void onStateListener(BuildContext context, LoginState state) {
     super.onStateListener(context, state);
     if(state.success){
-      Navigator.pushReplacementNamed(context, RouteConstants.home);
+      Navigator.pushReplacementNamed(context, RouteConstants.productManagement);
     }
   }
 }

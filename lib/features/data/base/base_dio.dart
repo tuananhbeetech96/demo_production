@@ -34,7 +34,7 @@ class BaseDio implements IBaseDio {
             queryParameters: queryParameters);
         final data = response.data;
 
-        final statusCode = data is Map<String, dynamic> ? data['result'] as int : 0;
+        final statusCode = response.statusCode ?? -1;
         return switch (statusCode) {
           1 => Result.success(fromJson(data)),
           _ => Result.error(Failure.serverError()),

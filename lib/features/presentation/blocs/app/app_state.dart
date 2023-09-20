@@ -1,26 +1,17 @@
 part of 'app_bloc.dart';
 
 class AppState extends BaseState<AppState>{
-  final String? token;
-  final String? refreshToken;
-  final int? fadId;
 
   const AppState(
-      {super.isLoading, super.error, this.token, this.refreshToken, this.fadId});
+      {super.isLoading, super.error});
 
   @override
   AppState copyWith({
     bool isLoading = false,
-    Failure? error,
-    String? token,
-    String? refreshToken,
-    int? fadId,
+    Failure? error
   }) =>
       AppState(
         isLoading: isLoading,
-        error: error,
-        token: token,
-        refreshToken: refreshToken,
-        fadId: fadId,
+        error: error
       );
 }
