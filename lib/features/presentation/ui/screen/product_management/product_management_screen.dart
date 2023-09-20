@@ -49,6 +49,9 @@ class _ProductManagementScreenState extends BaseScreenState<ProductManagementScr
         _getTitleItemWidget(e.value, e.width)
     ).toList();
 
+
+    if(widgets.isEmpty)  return [];
+
     bool isCheckAll = context.read<ProductManagementBloc>()
         .isCheckAll();
 

@@ -20,15 +20,10 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
   final ProductManagementUseCase _productManagementUseCase;
   ProductDataFactory? productDataFactory;
   
-  bool isCheckAll() => productDataFactory?.getData()
-      .every((element) => element.every((element) => element.isCheck)) ?? false;
+  bool isCheckAll() => productDataFactory?.isCheckAll() ?? false;
 
   void checkAll(bool check){
-    productDataFactory?.getData().forEach((element) {
-      element.forEach((element) {
-        element.isCheck = check;
-      });
-    });
+    productDataFactory?.checkAll(check);
   }
 
   @override

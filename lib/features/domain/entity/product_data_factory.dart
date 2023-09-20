@@ -19,8 +19,18 @@ class ProductDataFactory {
     _cellData.addAll(data);
   }
 
+  bool isCheckAll() => _cellData.every((element) => element.every((element) => element.isCheck));
+
   void clearData(){
     _cellData.clear();
+  }
+
+  void checkAll(bool check){
+    _cellData.forEach((element) {
+      element.forEach((element) {
+        element.isCheck = check;
+      });
+    });
   }
 
   List<List<ProductData>> getData() => _cellData;
