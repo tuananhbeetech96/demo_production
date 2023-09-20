@@ -1,5 +1,6 @@
 import 'package:music_app/features/data/exception/failure.dart';
 import 'package:music_app/features/data/models/search_model/search_model.dart';
+import 'package:music_app/features/domain/entity/product_data_factory.dart';
 import 'package:music_app/features/presentation/blocs/base/base_bloc.dart';
 
 class ProductManagementState extends BaseState{
@@ -17,7 +18,7 @@ class ProductManagementState extends BaseState{
 }
 
 class SearchState {
-  SearchModel? searchModel;
+  ProductDataFactory? productDataFactory;
 
-  SearchState(this.searchModel);
+  SearchState(this.productDataFactory);
 }

@@ -55,4 +55,25 @@ extension StringExtension on String? {
       width: width,
     );
   }
+
+  String serializedName() {
+    if(this == null){
+      return "";
+    }
+    List<String> separate = this!.split("_");
+    if(separate.isEmpty){
+      return this!;
+    }
+
+    StringBuffer result = StringBuffer();
+
+    for(var i = 0; i < separate.length ; i ++){
+      if(i == 0){
+        result.write(separate[i]);
+      }else {
+        result.write(separate[i][0].toUpperCase() + separate[i].substring(1));
+      }
+    }
+    return result.toString();
+  }
 }

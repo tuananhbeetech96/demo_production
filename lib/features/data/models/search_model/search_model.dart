@@ -1,13 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:music_app/features/data/base/base_response.dart';
+import 'package:reflectable/reflectable.dart';
 
-part 'search_model.g.dart';
-
-@JsonSerializable()
-class SearchModel implements BaseDataModel{
+class SearchModel extends BaseDataModel{
   SearchModel({
-      int? currentPage,
-      int? total,
+      int? currentPage, 
+      int? total, 
       int? lastPage, 
       List<Data>? data, 
       List<FilterKouji>? filterKouji, 
@@ -34,17 +31,75 @@ class SearchModel implements BaseDataModel{
     _filterBuild = filterBuild;
     _filterShip = filterShip;
     _filterDate = filterDate;
-
-
 }
 
-  @override
-  String toString() {
-    return 'SearchModel{_currentPage: $_currentPage, _total: $_total, _lastPage: $_lastPage, _data: $_data, _filterKouji: $_filterKouji, _filterStanza: $_filterStanza, _filterFloor: $_filterFloor, _filterArea: $_filterArea, _filterNode: $_filterNode, _filterPaint: $_filterPaint, _filterGroup: $_filterGroup, _filterBuild: $_filterBuild, _filterShip: $_filterShip, _filterDate: $_filterDate}';
+  SearchModel.fromJson(dynamic json) {
+    _currentPage = json['current_page'];
+    _total = json['total'];
+    _lastPage = json['last_page'];
+    if (json['data'] != null) {
+      _data = [];
+      json['data'].forEach((v) {
+        _data?.add(Data.fromJson(v));
+      });
+    }
+    if (json['filter_kouji'] != null) {
+      _filterKouji = [];
+      json['filter_kouji'].forEach((v) {
+        _filterKouji?.add(FilterKouji.fromJson(v));
+      });
+    }
+    if (json['filter_stanza'] != null) {
+      _filterStanza = [];
+      json['filter_stanza'].forEach((v) {
+        _filterStanza?.add(FilterStanza.fromJson(v));
+      });
+    }
+    if (json['filter_floor'] != null) {
+      _filterFloor = [];
+      json['filter_floor'].forEach((v) {
+        _filterFloor?.add(FilterFloor.fromJson(v));
+      });
+    }
+    if (json['filter_area'] != null) {
+      _filterArea = [];
+      json['filter_area'].forEach((v) {
+        _filterArea?.add(FilterArea.fromJson(v));
+      });
+    }
+    if (json['filter_node'] != null) {
+      _filterNode = [];
+      json['filter_node'].forEach((v) {
+        _filterNode?.add(FilterNode.fromJson(v));
+      });
+    }
+    if (json['filter_paint'] != null) {
+      _filterPaint = [];
+      json['filter_paint'].forEach((v) {
+        _filterPaint?.add(FilterPaint.fromJson(v));
+      });
+    }
+    if (json['filter_group'] != null) {
+      _filterGroup = [];
+      json['filter_group'].forEach((v) {
+        _filterGroup?.add(FilterGroup.fromJson(v));
+      });
+    }
+    if (json['filter_build'] != null) {
+      _filterBuild = [];
+      json['filter_build'].forEach((v) {
+        _filterBuild?.add(FilterBuild.fromJson(v));
+      });
+    }
+    if (json['filter_ship'] != null) {
+      _filterShip = [];
+      json['filter_ship'].forEach((v) {
+        _filterShip?.add(FilterShip.fromJson(v));
+      });
+    }
+    _filterDate = json['filter_date'] != null ? FilterDate.fromJson(json['filter_date']) : null;
+
   }
-
-  factory SearchModel.fromJson(dynamic json) => _$SearchModelFromJson(json);
-
   int? _currentPage;
   int? _total;
   int? _lastPage;
@@ -103,14 +158,58 @@ SearchModel copyWith({  int? currentPage,
   List<FilterShip>? get filterShip => _filterShip;
   FilterDate? get filterDate => _filterDate;
 
-  Map<String, dynamic> toJson() => _$SearchModelToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['current_page'] = _currentPage;
+    map['total'] = _total;
+    map['last_page'] = _lastPage;
+    if (_data != null) {
+      map['data'] = _data?.map((v) => v.toJson()).toList();
+    }
+    if (_filterKouji != null) {
+      map['filter_kouji'] = _filterKouji?.map((v) => v.toJson()).toList();
+    }
+    if (_filterStanza != null) {
+      map['filter_stanza'] = _filterStanza?.map((v) => v.toJson()).toList();
+    }
+    if (_filterFloor != null) {
+      map['filter_floor'] = _filterFloor?.map((v) => v.toJson()).toList();
+    }
+    if (_filterArea != null) {
+      map['filter_area'] = _filterArea?.map((v) => v.toJson()).toList();
+    }
+    if (_filterNode != null) {
+      map['filter_node'] = _filterNode?.map((v) => v.toJson()).toList();
+    }
+    if (_filterPaint != null) {
+      map['filter_paint'] = _filterPaint?.map((v) => v.toJson()).toList();
+    }
+    if (_filterGroup != null) {
+      map['filter_group'] = _filterGroup?.map((v) => v.toJson()).toList();
+    }
+    if (_filterBuild != null) {
+      map['filter_build'] = _filterBuild?.map((v) => v.toJson()).toList();
+    }
+    if (_filterShip != null) {
+      map['filter_ship'] = _filterShip?.map((v) => v.toJson()).toList();
+    }
+    if (_filterDate != null) {
+      map['filter_date'] = _filterDate?.toJson();
+    }
+    return map;
+  }
 
   @override
-  T fromJson<T extends BaseDataModel>(Map<String, dynamic> json) => SearchModel.fromJson(json) as T;
+  T fromJson<T extends BaseDataModel>(Map<String, dynamic> json) {
+    return SearchModel.fromJson(json) as T;
+  }
 
+  @override
+  String toString() {
+    return 'SearchModel{_currentPage: $_currentPage, _total: $_total, _lastPage: $_lastPage, _data: $_data, _filterKouji: $_filterKouji, _filterStanza: $_filterStanza, _filterFloor: $_filterFloor, _filterArea: $_filterArea, _filterNode: $_filterNode, _filterPaint: $_filterPaint, _filterGroup: $_filterGroup, _filterBuild: $_filterBuild, _filterShip: $_filterShip, _filterDate: $_filterDate}';
+  }
 }
 
-@JsonSerializable()
 class FilterDate {
   FilterDate({
       String? min, 
@@ -119,7 +218,10 @@ class FilterDate {
     _max = max;
 }
 
-  factory FilterDate.fromJson(dynamic json) => _$FilterDateFromJson(json);
+  FilterDate.fromJson(dynamic json) {
+    _min = json['min'];
+    _max = json['max'];
+  }
   String? _min;
   String? _max;
 FilterDate copyWith({  String? min,
@@ -130,11 +232,15 @@ FilterDate copyWith({  String? min,
   String? get min => _min;
   String? get max => _max;
 
-  Map<String, dynamic> toJson() => _$FilterDateToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['min'] = _min;
+    map['max'] = _max;
+    return map;
+  }
 
 }
 
-@JsonSerializable()
 class FilterShip {
   FilterShip({
       int? koujiId, 
@@ -145,7 +251,11 @@ class FilterShip {
     _value = value;
 }
 
-  factory FilterShip.fromJson(dynamic json) => _$FilterShipFromJson(json);
+  FilterShip.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
   int? _koujiId;
   String? _id;
   String? _value;
@@ -160,11 +270,16 @@ FilterShip copyWith({  int? koujiId,
   String? get id => _id;
   String? get value => _value;
 
-  Map<String, dynamic> toJson() => _$FilterShipToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
 
 }
 
-@JsonSerializable()
 class FilterBuild {
   FilterBuild({
       int? koujiId, 
@@ -175,7 +290,11 @@ class FilterBuild {
     _value = value;
 }
 
-  factory FilterBuild.fromJson(dynamic json) => _$FilterBuildFromJson(json);
+  FilterBuild.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
   int? _koujiId;
   String? _id;
   String? _value;
@@ -190,11 +309,16 @@ FilterBuild copyWith({  int? koujiId,
   String? get id => _id;
   String? get value => _value;
 
-  Map<String, dynamic> toJson() => _$FilterBuildToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
 
 }
 
-@JsonSerializable()
 class FilterGroup {
   FilterGroup({
       int? koujiId, 
@@ -205,7 +329,11 @@ class FilterGroup {
     _value = value;
 }
 
-  factory FilterGroup.fromJson(dynamic json) => _$FilterGroupFromJson(json);
+  FilterGroup.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
   int? _koujiId;
   String? _id;
   String? _value;
@@ -220,11 +348,16 @@ FilterGroup copyWith({  int? koujiId,
   String? get id => _id;
   String? get value => _value;
 
-  Map<String, dynamic> toJson() => _$FilterGroupToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
 
 }
 
-@JsonSerializable()
 class FilterPaint {
   FilterPaint({
       int? koujiId, 
@@ -235,7 +368,11 @@ class FilterPaint {
     _value = value;
 }
 
-  factory FilterPaint.fromJson(dynamic json) => FilterPaint.fromJson(json);
+  FilterPaint.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
   int? _koujiId;
   String? _id;
   String? _value;
@@ -250,11 +387,16 @@ FilterPaint copyWith({  int? koujiId,
   String? get id => _id;
   String? get value => _value;
 
-  Map<String, dynamic> toJson() => _$FilterPaintToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
 
 }
 
-@JsonSerializable()
 class FilterNode {
   FilterNode({
       int? koujiId, 
@@ -265,8 +407,11 @@ class FilterNode {
     _value = value;
 }
 
-  factory FilterNode.fromJson(dynamic json) => _$FilterNodeFromJson(json);
-
+  FilterNode.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
   int? _koujiId;
   String? _id;
   String? _value;
@@ -281,10 +426,16 @@ FilterNode copyWith({  int? koujiId,
   String? get id => _id;
   String? get value => _value;
 
-  Map<String, dynamic> toJson() => _$FilterNodeToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
+
 }
 
-@JsonSerializable()
 class FilterArea {
   FilterArea({
       int? koujiId, 
@@ -295,7 +446,11 @@ class FilterArea {
     _value = value;
 }
 
-  factory FilterArea.fromJson(dynamic json) => _$FilterAreaFromJson(json);
+  FilterArea.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
   int? _koujiId;
   String? _id;
   String? _value;
@@ -310,11 +465,16 @@ FilterArea copyWith({  int? koujiId,
   String? get id => _id;
   String? get value => _value;
 
-  Map<String, dynamic> toJson() => _$FilterAreaToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
 
 }
 
-@JsonSerializable()
 class FilterFloor {
   FilterFloor({
       int? koujiId, 
@@ -354,7 +514,6 @@ FilterFloor copyWith({  int? koujiId,
 
 }
 
-@JsonSerializable()
 class FilterStanza {
   FilterStanza({
       int? koujiId, 
@@ -393,7 +552,7 @@ FilterStanza copyWith({  int? koujiId,
   }
 
 }
-@JsonSerializable()
+
 class FilterKouji {
   FilterKouji({
       String? id, 
@@ -424,7 +583,15 @@ FilterKouji copyWith({  String? id,
   }
 
 }
-@JsonSerializable()
+
+class Reflector extends Reflectable {
+  const Reflector()
+      : super(invokingCapability,typingCapability); // Request the capability to invoke methods.
+}
+
+const reflector = Reflector();
+
+@reflector
 class Data {
   Data({
       String? fabId, 
@@ -513,7 +680,50 @@ class Data {
     _flagLate = flagLate;
 }
 
-  factory Data.fromJson(dynamic json) => _$DataFromJson(json);
+  Data.fromJson(dynamic json) {
+    _fabId = json['fab_id'];
+    _koujiId = json['kouji_id'];
+    _koujiName = json['kouji_name'];
+    _headerMark = json['header_mark'];
+    _color = json['color'];
+    _shiguchiId = json['shiguchi_id'];
+    _buzaiName = json['buzai_name'];
+    _compInfoKindName = json['comp_info_kind_name'];
+    _resultTypeMode = json['result_type_mode'];
+    _seihinName = json['seihin_name'];
+    _floorName = json['floor_name'];
+    _floorId = json['floor_id'];
+    _stanza = json['stanza'];
+    _componentInfoBaseId = json['component_info_base_id'];
+    _keyplanName1 = json['keyplan_name_1'];
+    _keyplanName2 = json['keyplan_name_2'];
+    _areaName = json['area_name'];
+    _areaId = json['area_id'];
+    _nodeName = json['node_name'];
+    _nodeId = json['node_id'];
+    _paintName = json['paint_name'];
+    _paintId = json['paint_id'];
+    _buildName = json['build_name'];
+    _buildId = json['build_id'];
+    _groupName = json['group_name'];
+    _groupId = json['group_id'];
+    _shipName = json['ship_name'];
+    _shipId = json['ship_id'];
+    _weight = json['weight'];
+    _weldLen = json['weld_len'];
+    _ptargetDateTime = json['ptarget_date_time'];
+    _flagEnd = json['flag_end'];
+    _mailAddress = json['mail_address'];
+    _presultType = json['presult_type'];
+    _presultTypeName = json['presult_type_name'];
+    _updateTime = json['update_time'];
+    _presultId = json['presult_id'];
+    _updatedAt = json['updated_at'];
+    _pTargetId = json['p_target_id'];
+    _workProcessId = json['work_process_id'];
+    _compSecId = json['comp_sec_id'];
+    _flagLate = json['flag_late'];
+  }
   String? _fabId;
   String? _koujiId;
   String? _koujiName;
@@ -684,10 +894,51 @@ Data copyWith({  String? fabId,
   String? get compSecId => _compSecId;
   String? get flagLate => _flagLate;
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
-
-  @override
-  String toString() {
-    return 'Data{_fabId: $_fabId, _koujiId: $_koujiId, _koujiName: $_koujiName, _headerMark: $_headerMark, _color: $_color, _shiguchiId: $_shiguchiId, _buzaiName: $_buzaiName, _compInfoKindName: $_compInfoKindName, _resultTypeMode: $_resultTypeMode, _seihinName: $_seihinName, _floorName: $_floorName, _floorId: $_floorId, _stanza: $_stanza, _componentInfoBaseId: $_componentInfoBaseId, _keyplanName1: $_keyplanName1, _keyplanName2: $_keyplanName2, _areaName: $_areaName, _areaId: $_areaId, _nodeName: $_nodeName, _nodeId: $_nodeId, _paintName: $_paintName, _paintId: $_paintId, _buildName: $_buildName, _buildId: $_buildId, _groupName: $_groupName, _groupId: $_groupId, _shipName: $_shipName, _shipId: $_shipId, _weight: $_weight, _weldLen: $_weldLen, _ptargetDateTime: $_ptargetDateTime, _flagEnd: $_flagEnd, _mailAddress: $_mailAddress, _presultType: $_presultType, _presultTypeName: $_presultTypeName, _updateTime: $_updateTime, _presultId: $_presultId, _updatedAt: $_updatedAt, _pTargetId: $_pTargetId, _workProcessId: $_workProcessId, _compSecId: $_compSecId, _flagLate: $_flagLate}';
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['fab_id'] = _fabId;
+    map['kouji_id'] = _koujiId;
+    map['kouji_name'] = _koujiName;
+    map['header_mark'] = _headerMark;
+    map['color'] = _color;
+    map['shiguchi_id'] = _shiguchiId;
+    map['buzai_name'] = _buzaiName;
+    map['comp_info_kind_name'] = _compInfoKindName;
+    map['result_type_mode'] = _resultTypeMode;
+    map['seihin_name'] = _seihinName;
+    map['floor_name'] = _floorName;
+    map['floor_id'] = _floorId;
+    map['stanza'] = _stanza;
+    map['component_info_base_id'] = _componentInfoBaseId;
+    map['keyplan_name_1'] = _keyplanName1;
+    map['keyplan_name_2'] = _keyplanName2;
+    map['area_name'] = _areaName;
+    map['area_id'] = _areaId;
+    map['node_name'] = _nodeName;
+    map['node_id'] = _nodeId;
+    map['paint_name'] = _paintName;
+    map['paint_id'] = _paintId;
+    map['build_name'] = _buildName;
+    map['build_id'] = _buildId;
+    map['group_name'] = _groupName;
+    map['group_id'] = _groupId;
+    map['ship_name'] = _shipName;
+    map['ship_id'] = _shipId;
+    map['weight'] = _weight;
+    map['weld_len'] = _weldLen;
+    map['ptarget_date_time'] = _ptargetDateTime;
+    map['flag_end'] = _flagEnd;
+    map['mail_address'] = _mailAddress;
+    map['presult_type'] = _presultType;
+    map['presult_type_name'] = _presultTypeName;
+    map['update_time'] = _updateTime;
+    map['presult_id'] = _presultId;
+    map['updated_at'] = _updatedAt;
+    map['p_target_id'] = _pTargetId;
+    map['work_process_id'] = _workProcessId;
+    map['comp_sec_id'] = _compSecId;
+    map['flag_late'] = _flagLate;
+    return map;
   }
+
 }

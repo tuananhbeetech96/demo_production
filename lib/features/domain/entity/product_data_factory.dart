@@ -1,7 +1,43 @@
-import '../../data/models/search_model/search_model.dart';
+import 'package:music_app/features/domain/entity/option_item.dart';
+import 'package:music_app/features/domain/entity/product_data.dart';
+
 
 class ProductDataFactory {
-  List<Data> cellData = [];
-  List<Data> headers = [];
-  List<Data> columns = [];
+  final List<List<ProductData>> _cellData = [];
+  final List<OptionItem> _columns = [
+    OptionItem("工事", true, false, true, "kouji_name"),
+    OptionItem("頭番", true, false, true, "header_mark"),
+    OptionItem("コア符号", true, false, true, "buzai_name"),
+    OptionItem("製品符号", true, false, true, "seihin_name"),
+    OptionItem("階", true, false, true, "floor_name")
+  ];
+
+  void addCellData(List<List<ProductData>> data,bool isRefresh){
+    if(isRefresh){
+      _cellData.clear();
+    }
+    _cellData.addAll(data);
+  }
+
+  void clearData(){
+    _cellData.clear();
+  }
+
+  List<List<ProductData>> getData() => _cellData;
+
+  List<OptionItem> fakeColum(){
+    return _columns;
+  }
+
+  double getTotalWidth() {
+    List<double> listWidth =  _cellData.firstOrNull?.map((e) => e.width).toList() ?? [];
+    double totalWidth = 0;
+    listWidth.forEach((element) {
+      totalWidth += element;
+    });
+
+    return totalWidth;
+  }
+
+  int itemCount() => _cellData?.length ?? 0;
 }

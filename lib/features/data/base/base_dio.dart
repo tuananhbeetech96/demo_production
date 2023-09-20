@@ -36,7 +36,7 @@ class BaseDio implements IBaseDio {
 
         final statusCode = data is Map<String, dynamic> ? data['result'] as int : 0;
         return switch (statusCode) {
-          >= 200 && < 300 => Result.success(fromJson(data)),
+          1 => Result.success(fromJson(data)),
           _ => Result.error(Failure.serverError()),
         };
       } on DioException catch (e) {

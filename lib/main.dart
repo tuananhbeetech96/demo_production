@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:music_app/app.dart';
 import 'package:music_app/di/injection.dart';
 
+import 'main.reflectable.dart';
+
 Future<void> main() async {
+  initializeReflectable();
   WidgetsFlutterBinding.ensureInitialized();
   await AppInjection.configureInjection();
   // await SystemChrome.setPreferredOrientations([
