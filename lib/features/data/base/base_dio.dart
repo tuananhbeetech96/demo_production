@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:music_app/config/config.dart';
 import 'package:music_app/features/data/exception/failure.dart';
+import 'package:music_app/features/presentation/blocs/app/app_bloc.dart';
 import 'result.dart';
 
 abstract class IBaseDio {
@@ -41,9 +43,12 @@ class BaseDio implements IBaseDio {
         };
       } on DioException catch (e) {
         final statusCode = e.response?.statusCode ?? -1;
+        if(statusCode == 401){
+          GetIt.instance.get<AppBloc>().add(ExpiredTokenEvent());
+          return Result.error(Failure.unAuthorizedError());
+        }
         return switch (statusCode) {
           400 => Result.error(Failure.badRequestError()),
-          401 => Result.error(Failure.unAuthorizedError()),
           404 => Result.error(Failure.dataNotFoundError()),
           500 => Result.error(Failure.internalServerError()),
           _ => Result.error(Failure.serverError()),

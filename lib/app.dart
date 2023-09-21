@@ -8,35 +8,41 @@ import 'package:music_app/features/presentation/blocs/blocs.dart';
 import 'package:music_app/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
 
+  final _navKey = GlobalKey<NavigatorState>();
+
+  void _navigateToLogin() {
+    _navKey.currentState?.popUntil((r) => r.isFirst);
+    _navKey.currentState?.pushReplacementNamed(RouteConstants.login);
+  }
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: GetIt.I.get<AppBloc>(),
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        supportedLocales: L10n.all,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        locale: const Locale('vi'),
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: AppRoutes.getRoute,
-        initialRoute: RouteConstants.splash,
-        navigatorObservers: [routeObserver],
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+    return BlocListener(listener: (context,state){
+      _navigateToLogin();
+    },bloc: GetIt.I.get<AppBloc>(),
+    child:  MaterialApp(
+      navigatorKey: _navKey,
+      supportedLocales: L10n.all,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: const Locale('vi'),
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: AppRoutes.getRoute,
+      initialRoute: RouteConstants.splash,
+      navigatorObservers: [routeObserver],
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-    );
+    ),);
+
   }
 }
