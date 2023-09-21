@@ -92,25 +92,25 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
         listProductDatas.add(listProductData);
       });
 
-      listProductDatas.forEach((element) {
-        element.forEach((element) {
-          element.width = (maxWidthCol[element.name] ?? 0) + 40;
-          // debugPrint(element.toString());
-        });
-      });
+
 
       productDataFactory?.fakeColum().forEach((element) {
         element.width = (maxWidthCol[element.value] ?? 0) + 40;
       });
 
-      debugPrint("page ${page}  total ${data?.data?.total}");
-      page++;
       productDataFactory?.addCellData(listProductDatas, searchEvent.isRefresh);
+
+      productDataFactory?.getData().forEach((element) {
+        element.forEach((element) {
+          element.width = (maxWidthCol[element.name] ?? 0) + 40;
+          debugPrint(element.toString());
+        });
+      });
       emit(state.copyWith(
         searchState: SearchState(productDataFactory),
-        canLoadMore: page < (data?.data?.total ?? 0)
+        canLoadMore: page < (data?.data?.lastPage ?? 0)
       ));
-
+      page++;
     },(error){
       emitter(state.copyWith(error: error));
     });

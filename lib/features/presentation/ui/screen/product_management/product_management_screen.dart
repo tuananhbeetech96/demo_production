@@ -35,12 +35,11 @@ class _ProductManagementScreenState extends BaseScreenState<ProductManagementScr
             leftHandSideColBackgroundColor: const Color(0xFFFFFFFF),
             rightHandSideColBackgroundColor: const Color(0xFFFFFFFF),
             itemExtent: 55,
-            isFinish: true,
+            isFinish: !state.canLoadMore,
             onLoadMore: () async{
-              print(  "onLoadMore");
               bloc.add(SearchEvent(isRefresh: false));
               await bloc.stream.first;
-              return true;
+              return false;
             },
           );
         },
