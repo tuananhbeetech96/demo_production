@@ -40,7 +40,7 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
     on<SearchEvent>(_search);
     on<GetSectionEvent>(_getSection);
     on<GetOptionItemEvent>(_getOptionItem);
-    // add(GetSectionEvent(preferences.user?.token ?? '', preferences.user?.refreshToken ?? ''));
+    add(GetSectionEvent(preferences.user?.token ?? '', preferences.user?.refreshToken ?? ''));
     add(GetOptionItemEvent(preferences.user?.token ?? '', preferences.user?.refreshToken ?? '', 1));
   }
 

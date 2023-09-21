@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:music_app/core/core.dart';
 import 'package:music_app/features/domain/entity/product_data.dart';
 import 'package:music_app/features/presentation/blocs/product_management/product_management_bloc.dart';
 import 'package:music_app/features/presentation/blocs/product_management/product_management_event.dart';
 import 'package:music_app/features/presentation/blocs/product_management/product_management_state.dart';
+import 'package:music_app/features/presentation/ui/dialogs/section_dialog.dart';
 import 'package:music_app/features/presentation/ui/screen/base_screen_state.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
 
 import '../../../../domain/entity/option_item.dart';
+import '../../dialogs/option_item_dialog.dart';
 
 class ProductManagementScreen extends StatefulWidget {
   const ProductManagementScreen({Key? key}) : super(key: key);
@@ -23,25 +26,59 @@ class _ProductManagementScreenState extends BaseScreenState<ProductManagementScr
       return OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
           debugPrint("orientation ${orientation}");
-          return HorizontalDataTable(
-            leftHandSideColumnWidth: 50,
-            rightHandSideColumnWidth: state.searchState?.productDataFactory?.getTotalWidth() ?? 0,
-            isFixedHeader: true,
-            headerWidgets: _getTitleWidget(context,state.searchState?.productDataFactory?.fakeColum() ?? []),
-            isFixedFooter: false,
-            leftSideItemBuilder: _generateFirstColumnRow,
-            rightSideItemBuilder: _generateRightHandSideColumnRow,
-            itemCount: state.searchState?.productDataFactory?.itemCount() ?? 0,
-            leftHandSideColBackgroundColor: const Color(0xFFFFFFFF),
-            rightHandSideColBackgroundColor: const Color(0xFFFFFFFF),
-            itemExtent: 55,
-            isFinish: !state.canLoadMore,
-            onLoadMore: () async{
-              bloc.add(SearchEvent(isRefresh: false));
-              await bloc.stream.first;
-              return false;
-            },
-          );
+          return Column(children: [
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  showDialog(
+                      context: context,
+                      builder: (builderContext) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SectionDialog(
+                                listSection: bloc.state.section?.data ?? []),
+                          ],
+                        );
+                      });
+                }, icon: const Icon(Icons.segment)),
+                IconButton(onPressed: (){
+                  showDialog(
+                      context: context,
+                      builder: (builderContext) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OptionItemDialog(
+                                listOptionItem: bloc.productDataFactory?.getColumns() ?? [],
+                                onClickBtn: (reason) {
+                                }),
+                          ],
+                        );
+                      });
+                }, icon: const Icon(Icons.list_alt))
+              ],
+            ),
+            HorizontalDataTable(
+              leftHandSideColumnWidth: 50,
+              rightHandSideColumnWidth: state.searchState?.productDataFactory?.getTotalWidth() ?? 0,
+              isFixedHeader: true,
+              headerWidgets: _getTitleWidget(context,state.searchState?.productDataFactory?.fakeColum() ?? []),
+              isFixedFooter: false,
+              leftSideItemBuilder: _generateFirstColumnRow,
+              rightSideItemBuilder: _generateRightHandSideColumnRow,
+              itemCount: state.searchState?.productDataFactory?.itemCount() ?? 0,
+              leftHandSideColBackgroundColor: const Color(0xFFFFFFFF),
+              rightHandSideColBackgroundColor: const Color(0xFFFFFFFF),
+              itemExtent: 55,
+              isFinish: !state.canLoadMore,
+              onLoadMore: () async{
+                bloc.add(SearchEvent(isRefresh: false));
+                await bloc.stream.first;
+                return false;
+              },
+            ).expanded()
+          ],);
         },
       );
     });

@@ -19,8 +19,8 @@ class ProductManagementState extends BaseState{
   @override
   copyWith({bool isLoading = false, Failure? error,SearchState? searchState,bool? canLoadMore, BaseListResponse<SectionResponseModel>? section, BaseListResponse<OptionItemResponseModel>? optionItem}) {
     return ProductManagementState(isLoading: isLoading,error: error,searchState: searchState ?? this.searchState,canLoadMore: canLoadMore ?? this.canLoadMore,
-        section: section,
-        optionItem: optionItem);
+        section: section ?? this.section,
+        optionItem: optionItem ?? this.optionItem);
   }
 
 }
