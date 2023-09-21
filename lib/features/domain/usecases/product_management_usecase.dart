@@ -5,6 +5,7 @@ import 'package:music_app/features/domain/entity/request/search_request.dart';
 import 'package:music_app/features/domain/repositories/product_management_repository.dart';
 import 'package:music_app/features/domain/usecases/use_case.dart';
 
+
 class ProductManagementUseCase extends UseCase<BaseObjectResponse<SearchModel>, SearchRequest> {
   final ProductManagementRepository _productManagementRepository;
 

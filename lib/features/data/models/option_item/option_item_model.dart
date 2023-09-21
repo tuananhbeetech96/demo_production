@@ -30,4 +30,7 @@ class OptionItemResponseModel implements BaseDataModel {
   String toString() {
     return 'Data{_keye: $key, _value: $value, _flag: $flag, _flagMerge: $flagMerge, _sortBy: $sortBy}';
   }
+
+  bool enable() => flag == 1;
+  bool isFixed() => flag == 1;
 }

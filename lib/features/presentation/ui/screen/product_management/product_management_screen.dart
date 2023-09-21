@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_app/features/domain/entity/product_data.dart';
 import 'package:music_app/features/presentation/blocs/product_management/product_management_bloc.dart';
+import 'package:music_app/features/presentation/blocs/product_management/product_management_event.dart';
 import 'package:music_app/features/presentation/blocs/product_management/product_management_state.dart';
 import 'package:music_app/features/presentation/ui/screen/base_screen_state.dart';
 import 'package:horizontal_data_table/horizontal_data_table.dart';
@@ -34,8 +35,11 @@ class _ProductManagementScreenState extends BaseScreenState<ProductManagementScr
             leftHandSideColBackgroundColor: const Color(0xFFFFFFFF),
             rightHandSideColBackgroundColor: const Color(0xFFFFFFFF),
             itemExtent: 55,
+            isFinish: true,
             onLoadMore: () async{
-
+              print(  "onLoadMore");
+              bloc.add(SearchEvent(isRefresh: false));
+              await bloc.stream.first;
               return true;
             },
           );
@@ -86,8 +90,7 @@ class _ProductManagementScreenState extends BaseScreenState<ProductManagementScr
 
 
   Widget _generateFirstColumnRow(BuildContext context, int index) {
-    List<ProductData> row = context.read<ProductManagementBloc>()
-                 .state.searchState?.productDataFactory?.getData()[index] ?? [];
+    List<ProductData> row = bloc.state.searchState?.productDataFactory?.getData()[index] ?? [];
     return Container(
       width: 50,
       height: 55,

@@ -4,6 +4,8 @@ import 'package:music_app/features/data/base/result.dart';
 import 'package:music_app/features/data/models/search_model/search_model.dart';
 import 'package:music_app/features/domain/entity/request/search_request.dart';
 
+
+
 abstract class ProductManagementApiProvider {
   Future<Result<BaseObjectResponse<SearchModel>>> search(SearchRequest searchRequest);
 }

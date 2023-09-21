@@ -36,13 +36,12 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
 
   @override
   void init() {
+    productDataFactory = ProductDataFactory();
     on<SearchEvent>(_search);
     on<GetSectionEvent>(_getSection);
     on<GetOptionItemEvent>(_getOptionItem);
-    add(GetSectionEvent(preferences.user?.token ?? '', preferences.user?.refreshToken ?? ''));
+    // add(GetSectionEvent(preferences.user?.token ?? '', preferences.user?.refreshToken ?? ''));
     add(GetOptionItemEvent(preferences.user?.token ?? '', preferences.user?.refreshToken ?? '', 1));
-    add(SearchEvent());
-    productDataFactory = ProductDataFactory();
   }
 
   int page = 1;
@@ -59,19 +58,18 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
       keyword: "",
       mode: 2,
       refreshToken: preferences.user?.refreshToken,
-      sectionId: 8,
+      sectionId: 7,
       token: preferences.user?.token,
-      type: 2,
+      type: 1,
       page: page,
       perPage: 20
     ))).fold((data){
       List<List<ProductData>> listProductDatas = [];
       data?.data?.data?.forEach((tblResponse) {
         List<ProductData> listProductData = [];
-        fakeColum().forEach((column) {
+        productDataFactory?.getColumns().forEach((column) {
             InstanceMirror instanceMirror = reflector.reflect(tblResponse);
             String? value = instanceMirror.invokeGetter(column.key.serializedName())?.toString();
-            debugPrint(value);
             Size size = (TextPainter(
                 text: TextSpan(text: value),
                 textDirection: TextDirection.ltr)
@@ -94,12 +92,10 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
         listProductDatas.add(listProductData);
       });
 
-
-
       listProductDatas.forEach((element) {
         element.forEach((element) {
           element.width = (maxWidthCol[element.name] ?? 0) + 40;
-          debugPrint(element.toString());
+          // debugPrint(element.toString());
         });
       });
 
@@ -107,26 +103,20 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
         element.width = (maxWidthCol[element.value] ?? 0) + 40;
       });
 
+      debugPrint("page ${page}  total ${data?.data?.total}");
+      page++;
       productDataFactory?.addCellData(listProductDatas, searchEvent.isRefresh);
       emit(state.copyWith(
-        searchState: SearchState(productDataFactory)
+        searchState: SearchState(productDataFactory),
+        canLoadMore: page < (data?.data?.total ?? 0)
       ));
 
-      page++;
     },(error){
       emitter(state.copyWith(error: error));
     });
   }
 
-  List<OptionItem> fakeColum(){
-    return [
-      OptionItem("工事", true, false, true, "kouji_name"),
-      OptionItem("頭番", true, false, true, "header_mark"),
-      OptionItem("コア符号", true, false, true, "buzai_name"),
-      OptionItem("製品符号", true, false, true, "seihin_name"),
-      OptionItem("階", true, false, true, "floor_name")
-    ];
-  }
+
 
   _getSection(GetSectionEvent getSectionEvent, Emitter<ProductManagementState> emitter) async {
     emitter(state.copyWith(isLoading: true));
@@ -134,7 +124,6 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
         token: getSectionEvent.token,
         refreshToken: getSectionEvent.refreshToken
     ))).fold((data) {
-      debugPrint(data?.data?.toString());
       emitter(state.copyWith(section: data));
     }, (error) {
       emitter(state.copyWith(error: error));
@@ -148,8 +137,10 @@ class ProductManagementBloc extends BaseBloc<ProductManagementEvent,ProductManag
         refreshToken: getOptionItemEvent.refreshToken,
         type: getOptionItemEvent.type
     ))).fold((data) {
-      debugPrint(data?.data?.toString());
-      emitter(state.copyWith(optionItem: data));
+      productDataFactory?.addColumns(data?.data?.map((e) =>
+          OptionItem(e.value ?? "", e.enable(), e.isFixed(), true, e.key ?? "")).toList() ?? [], true);
+      // emitter(state.copyWith(optionItem: data));
+      add(SearchEvent());
     }, (error) {
       emitter(state.copyWith(error: error));
     });

@@ -8,6 +8,8 @@ class SearchModel extends BaseDataModel{
       int? lastPage, 
       List<Data>? data, 
       List<FilterKouji>? filterKouji, 
+      List<MaterialKind>? materialKind, 
+      List<MaterialSize>? materialSize, 
       List<FilterStanza>? filterStanza, 
       List<FilterFloor>? filterFloor, 
       List<FilterArea>? filterArea, 
@@ -22,6 +24,8 @@ class SearchModel extends BaseDataModel{
     _lastPage = lastPage;
     _data = data;
     _filterKouji = filterKouji;
+    _materialKind = materialKind;
+    _materialSize = materialSize;
     _filterStanza = filterStanza;
     _filterFloor = filterFloor;
     _filterArea = filterArea;
@@ -47,6 +51,18 @@ class SearchModel extends BaseDataModel{
       _filterKouji = [];
       json['filter_kouji'].forEach((v) {
         _filterKouji?.add(FilterKouji.fromJson(v));
+      });
+    }
+    if (json['material_kind'] != null) {
+      _materialKind = [];
+      json['material_kind'].forEach((v) {
+        _materialKind?.add(MaterialKind.fromJson(v));
+      });
+    }
+    if (json['material_size'] != null) {
+      _materialSize = [];
+      json['material_size'].forEach((v) {
+        _materialSize?.add(MaterialSize.fromJson(v));
       });
     }
     if (json['filter_stanza'] != null) {
@@ -98,13 +114,14 @@ class SearchModel extends BaseDataModel{
       });
     }
     _filterDate = json['filter_date'] != null ? FilterDate.fromJson(json['filter_date']) : null;
-
   }
   int? _currentPage;
   int? _total;
   int? _lastPage;
   List<Data>? _data;
   List<FilterKouji>? _filterKouji;
+  List<MaterialKind>? _materialKind;
+  List<MaterialSize>? _materialSize;
   List<FilterStanza>? _filterStanza;
   List<FilterFloor>? _filterFloor;
   List<FilterArea>? _filterArea;
@@ -119,6 +136,8 @@ SearchModel copyWith({  int? currentPage,
   int? lastPage,
   List<Data>? data,
   List<FilterKouji>? filterKouji,
+  List<MaterialKind>? materialKind,
+  List<MaterialSize>? materialSize,
   List<FilterStanza>? filterStanza,
   List<FilterFloor>? filterFloor,
   List<FilterArea>? filterArea,
@@ -133,6 +152,8 @@ SearchModel copyWith({  int? currentPage,
   lastPage: lastPage ?? _lastPage,
   data: data ?? _data,
   filterKouji: filterKouji ?? _filterKouji,
+  materialKind: materialKind ?? _materialKind,
+  materialSize: materialSize ?? _materialSize,
   filterStanza: filterStanza ?? _filterStanza,
   filterFloor: filterFloor ?? _filterFloor,
   filterArea: filterArea ?? _filterArea,
@@ -148,6 +169,8 @@ SearchModel copyWith({  int? currentPage,
   int? get lastPage => _lastPage;
   List<Data>? get data => _data;
   List<FilterKouji>? get filterKouji => _filterKouji;
+  List<MaterialKind>? get materialKind => _materialKind;
+  List<MaterialSize>? get materialSize => _materialSize;
   List<FilterStanza>? get filterStanza => _filterStanza;
   List<FilterFloor>? get filterFloor => _filterFloor;
   List<FilterArea>? get filterArea => _filterArea;
@@ -168,6 +191,12 @@ SearchModel copyWith({  int? currentPage,
     }
     if (_filterKouji != null) {
       map['filter_kouji'] = _filterKouji?.map((v) => v.toJson()).toList();
+    }
+    if (_materialKind != null) {
+      map['material_kind'] = _materialKind?.map((v) => v.toJson()).toList();
+    }
+    if (_materialSize != null) {
+      map['material_size'] = _materialSize?.map((v) => v.toJson()).toList();
     }
     if (_filterStanza != null) {
       map['filter_stanza'] = _filterStanza?.map((v) => v.toJson()).toList();
@@ -204,10 +233,6 @@ SearchModel copyWith({  int? currentPage,
     return SearchModel.fromJson(json) as T;
   }
 
-  @override
-  String toString() {
-    return 'SearchModel{_currentPage: $_currentPage, _total: $_total, _lastPage: $_lastPage, _data: $_data, _filterKouji: $_filterKouji, _filterStanza: $_filterStanza, _filterFloor: $_filterFloor, _filterArea: $_filterArea, _filterNode: $_filterNode, _filterPaint: $_filterPaint, _filterGroup: $_filterGroup, _filterBuild: $_filterBuild, _filterShip: $_filterShip, _filterDate: $_filterDate}';
-  }
 }
 
 class FilterDate {
@@ -553,6 +578,84 @@ FilterStanza copyWith({  int? koujiId,
 
 }
 
+class MaterialSize {
+  MaterialSize({
+      int? koujiId, 
+      String? id, 
+      String? value,}){
+    _koujiId = koujiId;
+    _id = id;
+    _value = value;
+}
+
+  MaterialSize.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
+  int? _koujiId;
+  String? _id;
+  String? _value;
+MaterialSize copyWith({  int? koujiId,
+  String? id,
+  String? value,
+}) => MaterialSize(  koujiId: koujiId ?? _koujiId,
+  id: id ?? _id,
+  value: value ?? _value,
+);
+  int? get koujiId => _koujiId;
+  String? get id => _id;
+  String? get value => _value;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
+
+}
+
+class MaterialKind {
+  MaterialKind({
+      int? koujiId, 
+      String? id, 
+      String? value,}){
+    _koujiId = koujiId;
+    _id = id;
+    _value = value;
+}
+
+  MaterialKind.fromJson(dynamic json) {
+    _koujiId = json['kouji_id'];
+    _id = json['id'];
+    _value = json['value'];
+  }
+  int? _koujiId;
+  String? _id;
+  String? _value;
+MaterialKind copyWith({  int? koujiId,
+  String? id,
+  String? value,
+}) => MaterialKind(  koujiId: koujiId ?? _koujiId,
+  id: id ?? _id,
+  value: value ?? _value,
+);
+  int? get koujiId => _koujiId;
+  String? get id => _id;
+  String? get value => _value;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['kouji_id'] = _koujiId;
+    map['id'] = _id;
+    map['value'] = _value;
+    return map;
+  }
+
+}
+
 class FilterKouji {
   FilterKouji({
       String? id, 
@@ -586,7 +689,7 @@ FilterKouji copyWith({  String? id,
 
 class Reflector extends Reflectable {
   const Reflector()
-      : super(invokingCapability,typingCapability); // Request the capability to invoke methods.
+      : super(invokingCapability); // Request the capability to invoke methods.
 }
 
 const reflector = Reflector();
@@ -599,15 +702,31 @@ class Data {
       String? koujiName, 
       String? headerMark, 
       String? color, 
-      String? shiguchiId, 
+      String? buzaiKindId, 
+      String? buzaiKindName, 
+      String? buzaiId, 
       String? buzaiName, 
       String? compInfoKindName, 
+      String? remark, 
+      String? materialKindBz, 
+      String? materialStdFBz, 
+      String? materialStdWBz, 
+      String? inpFaceBz, 
+      String? inpFaceId, 
+      String? panelId, 
+      String? pairId, 
+      String? materialSize, 
+      String? length, 
+      String? expand, 
+      String? weight, 
+      String? weldLen, 
+      String? hanchType, 
+      String? crush, 
       String? resultTypeMode, 
       String? seihinName, 
       String? floorName, 
       String? floorId, 
       String? stanza, 
-      String? componentInfoBaseId, 
       String? keyplanName1, 
       String? keyplanName2, 
       String? areaName, 
@@ -621,9 +740,11 @@ class Data {
       String? groupName, 
       String? groupId, 
       String? shipName, 
+      String? holeInfoId, 
+      String? notchInfoId, 
+      String? holeInfo, 
+      String? notchInfo, 
       String? shipId, 
-      String? weight, 
-      String? weldLen, 
       String? ptargetDateTime, 
       String? flagEnd, 
       String? mailAddress, 
@@ -631,25 +752,58 @@ class Data {
       String? presultTypeName, 
       String? updateTime, 
       String? presultId, 
-      String? updatedAt, 
       String? pTargetId, 
       String? workProcessId, 
       String? compSecId, 
+      String? updatedAt, 
+      String? inpFace, 
+      String? panel, 
+      String? pair, 
+      String? kindName, 
+      String? materialStdF, 
+      String? materialStdW, 
+      String? leftEndJointName, 
+      String? leftEndEdgeBuhinId, 
+      String? leftEndFirstCount, 
+      String? leftEndScallopCount, 
+      String? rightEndJointName, 
+      String? rightEndEdgeBuhinId, 
+      String? rightEndFirstCount, 
+      String? rightEndScallopCount, 
+      String? componentInfoBaseId, 
+      String? componentInfoId, 
+      String? componentInfoBuzaiId, 
       String? flagLate,}){
     _fabId = fabId;
     _koujiId = koujiId;
     _koujiName = koujiName;
     _headerMark = headerMark;
     _color = color;
-    _shiguchiId = shiguchiId;
+    _buzaiKindId = buzaiKindId;
+    _buzaiKindName = buzaiKindName;
+    _buzaiId = buzaiId;
     _buzaiName = buzaiName;
     _compInfoKindName = compInfoKindName;
+    _remark = remark;
+    _materialKindBz = materialKindBz;
+    _materialStdFBz = materialStdFBz;
+    _materialStdWBz = materialStdWBz;
+    _inpFaceBz = inpFaceBz;
+    _inpFaceId = inpFaceId;
+    _panelId = panelId;
+    _pairId = pairId;
+    _materialSize = materialSize;
+    _length = length;
+    _expand = expand;
+    _weight = weight;
+    _weldLen = weldLen;
+    _hanchType = hanchType;
+    _crush = crush;
     _resultTypeMode = resultTypeMode;
     _seihinName = seihinName;
     _floorName = floorName;
     _floorId = floorId;
     _stanza = stanza;
-    _componentInfoBaseId = componentInfoBaseId;
     _keyplanName1 = keyplanName1;
     _keyplanName2 = keyplanName2;
     _areaName = areaName;
@@ -663,9 +817,11 @@ class Data {
     _groupName = groupName;
     _groupId = groupId;
     _shipName = shipName;
+    _holeInfoId = holeInfoId;
+    _notchInfoId = notchInfoId;
+    _holeInfo = holeInfo;
+    _notchInfo = notchInfo;
     _shipId = shipId;
-    _weight = weight;
-    _weldLen = weldLen;
     _ptargetDateTime = ptargetDateTime;
     _flagEnd = flagEnd;
     _mailAddress = mailAddress;
@@ -673,10 +829,27 @@ class Data {
     _presultTypeName = presultTypeName;
     _updateTime = updateTime;
     _presultId = presultId;
-    _updatedAt = updatedAt;
     _pTargetId = pTargetId;
     _workProcessId = workProcessId;
     _compSecId = compSecId;
+    _updatedAt = updatedAt;
+    _inpFace = inpFace;
+    _panel = panel;
+    _pair = pair;
+    _kindName = kindName;
+    _materialStdF = materialStdF;
+    _materialStdW = materialStdW;
+    _leftEndJointName = leftEndJointName;
+    _leftEndEdgeBuhinId = leftEndEdgeBuhinId;
+    _leftEndFirstCount = leftEndFirstCount;
+    _leftEndScallopCount = leftEndScallopCount;
+    _rightEndJointName = rightEndJointName;
+    _rightEndEdgeBuhinId = rightEndEdgeBuhinId;
+    _rightEndFirstCount = rightEndFirstCount;
+    _rightEndScallopCount = rightEndScallopCount;
+    _componentInfoBaseId = componentInfoBaseId;
+    _componentInfoId = componentInfoId;
+    _componentInfoBuzaiId = componentInfoBuzaiId;
     _flagLate = flagLate;
 }
 
@@ -686,15 +859,31 @@ class Data {
     _koujiName = json['kouji_name'];
     _headerMark = json['header_mark'];
     _color = json['color'];
-    _shiguchiId = json['shiguchi_id'];
+    _buzaiKindId = json['buzai_kind_id'];
+    _buzaiKindName = json['buzai_kind_name'];
+    _buzaiId = json['buzai_id'];
     _buzaiName = json['buzai_name'];
     _compInfoKindName = json['comp_info_kind_name'];
+    _remark = json['remark'];
+    _materialKindBz = json['material_kind_bz'];
+    _materialStdFBz = json['material_std_f_bz'];
+    _materialStdWBz = json['material_std_w_bz'];
+    _inpFaceBz = json['inp_face_bz'];
+    _inpFaceId = json['inp_face_id'];
+    _panelId = json['panel_id'];
+    _pairId = json['pair_id'];
+    _materialSize = json['material_size'];
+    _length = json['length'];
+    _expand = json['expand'];
+    _weight = json['weight'];
+    _weldLen = json['weld_len'];
+    _hanchType = json['hanch_type'];
+    _crush = json['crush'];
     _resultTypeMode = json['result_type_mode'];
     _seihinName = json['seihin_name'];
     _floorName = json['floor_name'];
     _floorId = json['floor_id'];
     _stanza = json['stanza'];
-    _componentInfoBaseId = json['component_info_base_id'];
     _keyplanName1 = json['keyplan_name_1'];
     _keyplanName2 = json['keyplan_name_2'];
     _areaName = json['area_name'];
@@ -708,9 +897,11 @@ class Data {
     _groupName = json['group_name'];
     _groupId = json['group_id'];
     _shipName = json['ship_name'];
+    _holeInfoId = json['hole_info_id'];
+    _notchInfoId = json['notch_info_id'];
+    _holeInfo = json['hole_info'];
+    _notchInfo = json['notch_info'];
     _shipId = json['ship_id'];
-    _weight = json['weight'];
-    _weldLen = json['weld_len'];
     _ptargetDateTime = json['ptarget_date_time'];
     _flagEnd = json['flag_end'];
     _mailAddress = json['mail_address'];
@@ -718,10 +909,27 @@ class Data {
     _presultTypeName = json['presult_type_name'];
     _updateTime = json['update_time'];
     _presultId = json['presult_id'];
-    _updatedAt = json['updated_at'];
     _pTargetId = json['p_target_id'];
     _workProcessId = json['work_process_id'];
     _compSecId = json['comp_sec_id'];
+    _updatedAt = json['updated_at'];
+    _inpFace = json['inp_face'];
+    _panel = json['panel'];
+    _pair = json['pair'];
+    _kindName = json['kind_name'];
+    _materialStdF = json['material_std_f'];
+    _materialStdW = json['material_std_w'];
+    _leftEndJointName = json['left_end_joint_name'];
+    _leftEndEdgeBuhinId = json['left_end_edge_buhin_id'];
+    _leftEndFirstCount = json['left_end_first_count'];
+    _leftEndScallopCount = json['left_end_scallop_count'];
+    _rightEndJointName = json['right_end_joint_name'];
+    _rightEndEdgeBuhinId = json['right_end_edge_buhin_id'];
+    _rightEndFirstCount = json['right_end_first_count'];
+    _rightEndScallopCount = json['right_end_scallop_count'];
+    _componentInfoBaseId = json['component_info_base_id'];
+    _componentInfoId = json['component_info_id'];
+    _componentInfoBuzaiId = json['component_info_buzai_id'];
     _flagLate = json['flag_late'];
   }
   String? _fabId;
@@ -729,15 +937,31 @@ class Data {
   String? _koujiName;
   String? _headerMark;
   String? _color;
-  String? _shiguchiId;
+  String? _buzaiKindId;
+  String? _buzaiKindName;
+  String? _buzaiId;
   String? _buzaiName;
   String? _compInfoKindName;
+  String? _remark;
+  String? _materialKindBz;
+  String? _materialStdFBz;
+  String? _materialStdWBz;
+  String? _inpFaceBz;
+  String? _inpFaceId;
+  String? _panelId;
+  String? _pairId;
+  String? _materialSize;
+  String? _length;
+  String? _expand;
+  String? _weight;
+  String? _weldLen;
+  String? _hanchType;
+  String? _crush;
   String? _resultTypeMode;
   String? _seihinName;
   String? _floorName;
   String? _floorId;
   String? _stanza;
-  String? _componentInfoBaseId;
   String? _keyplanName1;
   String? _keyplanName2;
   String? _areaName;
@@ -751,9 +975,11 @@ class Data {
   String? _groupName;
   String? _groupId;
   String? _shipName;
+  String? _holeInfoId;
+  String? _notchInfoId;
+  String? _holeInfo;
+  String? _notchInfo;
   String? _shipId;
-  String? _weight;
-  String? _weldLen;
   String? _ptargetDateTime;
   String? _flagEnd;
   String? _mailAddress;
@@ -761,25 +987,58 @@ class Data {
   String? _presultTypeName;
   String? _updateTime;
   String? _presultId;
-  String? _updatedAt;
   String? _pTargetId;
   String? _workProcessId;
   String? _compSecId;
+  String? _updatedAt;
+  String? _inpFace;
+  String? _panel;
+  String? _pair;
+  String? _kindName;
+  String? _materialStdF;
+  String? _materialStdW;
+  String? _leftEndJointName;
+  String? _leftEndEdgeBuhinId;
+  String? _leftEndFirstCount;
+  String? _leftEndScallopCount;
+  String? _rightEndJointName;
+  String? _rightEndEdgeBuhinId;
+  String? _rightEndFirstCount;
+  String? _rightEndScallopCount;
+  String? _componentInfoBaseId;
+  String? _componentInfoId;
+  String? _componentInfoBuzaiId;
   String? _flagLate;
 Data copyWith({  String? fabId,
   String? koujiId,
   String? koujiName,
   String? headerMark,
   String? color,
-  String? shiguchiId,
+  String? buzaiKindId,
+  String? buzaiKindName,
+  String? buzaiId,
   String? buzaiName,
   String? compInfoKindName,
+  String? remark,
+  String? materialKindBz,
+  String? materialStdFBz,
+  String? materialStdWBz,
+  String? inpFaceBz,
+  String? inpFaceId,
+  String? panelId,
+  String? pairId,
+  String? materialSize,
+  String? length,
+  String? expand,
+  String? weight,
+  String? weldLen,
+  String? hanchType,
+  String? crush,
   String? resultTypeMode,
   String? seihinName,
   String? floorName,
   String? floorId,
   String? stanza,
-  String? componentInfoBaseId,
   String? keyplanName1,
   String? keyplanName2,
   String? areaName,
@@ -793,9 +1052,11 @@ Data copyWith({  String? fabId,
   String? groupName,
   String? groupId,
   String? shipName,
+  String? holeInfoId,
+  String? notchInfoId,
+  String? holeInfo,
+  String? notchInfo,
   String? shipId,
-  String? weight,
-  String? weldLen,
   String? ptargetDateTime,
   String? flagEnd,
   String? mailAddress,
@@ -803,25 +1064,58 @@ Data copyWith({  String? fabId,
   String? presultTypeName,
   String? updateTime,
   String? presultId,
-  String? updatedAt,
   String? pTargetId,
   String? workProcessId,
   String? compSecId,
+  String? updatedAt,
+  String? inpFace,
+  String? panel,
+  String? pair,
+  String? kindName,
+  String? materialStdF,
+  String? materialStdW,
+  String? leftEndJointName,
+  String? leftEndEdgeBuhinId,
+  String? leftEndFirstCount,
+  String? leftEndScallopCount,
+  String? rightEndJointName,
+  String? rightEndEdgeBuhinId,
+  String? rightEndFirstCount,
+  String? rightEndScallopCount,
+  String? componentInfoBaseId,
+  String? componentInfoId,
+  String? componentInfoBuzaiId,
   String? flagLate,
 }) => Data(  fabId: fabId ?? _fabId,
   koujiId: koujiId ?? _koujiId,
   koujiName: koujiName ?? _koujiName,
   headerMark: headerMark ?? _headerMark,
   color: color ?? _color,
-  shiguchiId: shiguchiId ?? _shiguchiId,
+  buzaiKindId: buzaiKindId ?? _buzaiKindId,
+  buzaiKindName: buzaiKindName ?? _buzaiKindName,
+  buzaiId: buzaiId ?? _buzaiId,
   buzaiName: buzaiName ?? _buzaiName,
   compInfoKindName: compInfoKindName ?? _compInfoKindName,
+  remark: remark ?? _remark,
+  materialKindBz: materialKindBz ?? _materialKindBz,
+  materialStdFBz: materialStdFBz ?? _materialStdFBz,
+  materialStdWBz: materialStdWBz ?? _materialStdWBz,
+  inpFaceBz: inpFaceBz ?? _inpFaceBz,
+  inpFaceId: inpFaceId ?? _inpFaceId,
+  panelId: panelId ?? _panelId,
+  pairId: pairId ?? _pairId,
+  materialSize: materialSize ?? _materialSize,
+  length: length ?? _length,
+  expand: expand ?? _expand,
+  weight: weight ?? _weight,
+  weldLen: weldLen ?? _weldLen,
+  hanchType: hanchType ?? _hanchType,
+  crush: crush ?? _crush,
   resultTypeMode: resultTypeMode ?? _resultTypeMode,
   seihinName: seihinName ?? _seihinName,
   floorName: floorName ?? _floorName,
   floorId: floorId ?? _floorId,
   stanza: stanza ?? _stanza,
-  componentInfoBaseId: componentInfoBaseId ?? _componentInfoBaseId,
   keyplanName1: keyplanName1 ?? _keyplanName1,
   keyplanName2: keyplanName2 ?? _keyplanName2,
   areaName: areaName ?? _areaName,
@@ -835,9 +1129,11 @@ Data copyWith({  String? fabId,
   groupName: groupName ?? _groupName,
   groupId: groupId ?? _groupId,
   shipName: shipName ?? _shipName,
+  holeInfoId: holeInfoId ?? _holeInfoId,
+  notchInfoId: notchInfoId ?? _notchInfoId,
+  holeInfo: holeInfo ?? _holeInfo,
+  notchInfo: notchInfo ?? _notchInfo,
   shipId: shipId ?? _shipId,
-  weight: weight ?? _weight,
-  weldLen: weldLen ?? _weldLen,
   ptargetDateTime: ptargetDateTime ?? _ptargetDateTime,
   flagEnd: flagEnd ?? _flagEnd,
   mailAddress: mailAddress ?? _mailAddress,
@@ -845,10 +1141,27 @@ Data copyWith({  String? fabId,
   presultTypeName: presultTypeName ?? _presultTypeName,
   updateTime: updateTime ?? _updateTime,
   presultId: presultId ?? _presultId,
-  updatedAt: updatedAt ?? _updatedAt,
   pTargetId: pTargetId ?? _pTargetId,
   workProcessId: workProcessId ?? _workProcessId,
   compSecId: compSecId ?? _compSecId,
+  updatedAt: updatedAt ?? _updatedAt,
+  inpFace: inpFace ?? _inpFace,
+  panel: panel ?? _panel,
+  pair: pair ?? _pair,
+  kindName: kindName ?? _kindName,
+  materialStdF: materialStdF ?? _materialStdF,
+  materialStdW: materialStdW ?? _materialStdW,
+  leftEndJointName: leftEndJointName ?? _leftEndJointName,
+  leftEndEdgeBuhinId: leftEndEdgeBuhinId ?? _leftEndEdgeBuhinId,
+  leftEndFirstCount: leftEndFirstCount ?? _leftEndFirstCount,
+  leftEndScallopCount: leftEndScallopCount ?? _leftEndScallopCount,
+  rightEndJointName: rightEndJointName ?? _rightEndJointName,
+  rightEndEdgeBuhinId: rightEndEdgeBuhinId ?? _rightEndEdgeBuhinId,
+  rightEndFirstCount: rightEndFirstCount ?? _rightEndFirstCount,
+  rightEndScallopCount: rightEndScallopCount ?? _rightEndScallopCount,
+  componentInfoBaseId: componentInfoBaseId ?? _componentInfoBaseId,
+  componentInfoId: componentInfoId ?? _componentInfoId,
+  componentInfoBuzaiId: componentInfoBuzaiId ?? _componentInfoBuzaiId,
   flagLate: flagLate ?? _flagLate,
 );
   String? get fabId => _fabId;
@@ -856,15 +1169,31 @@ Data copyWith({  String? fabId,
   String? get koujiName => _koujiName;
   String? get headerMark => _headerMark;
   String? get color => _color;
-  String? get shiguchiId => _shiguchiId;
+  String? get buzaiKindId => _buzaiKindId;
+  String? get buzaiKindName => _buzaiKindName;
+  String? get buzaiId => _buzaiId;
   String? get buzaiName => _buzaiName;
   String? get compInfoKindName => _compInfoKindName;
+  String? get remark => _remark;
+  String? get materialKindBz => _materialKindBz;
+  String? get materialStdFBz => _materialStdFBz;
+  String? get materialStdWBz => _materialStdWBz;
+  String? get inpFaceBz => _inpFaceBz;
+  String? get inpFaceId => _inpFaceId;
+  String? get panelId => _panelId;
+  String? get pairId => _pairId;
+  String? get materialSize => _materialSize;
+  String? get length => _length;
+  String? get expand => _expand;
+  String? get weight => _weight;
+  String? get weldLen => _weldLen;
+  String? get hanchType => _hanchType;
+  String? get crush => _crush;
   String? get resultTypeMode => _resultTypeMode;
   String? get seihinName => _seihinName;
   String? get floorName => _floorName;
   String? get floorId => _floorId;
   String? get stanza => _stanza;
-  String? get componentInfoBaseId => _componentInfoBaseId;
   String? get keyplanName1 => _keyplanName1;
   String? get keyplanName2 => _keyplanName2;
   String? get areaName => _areaName;
@@ -878,9 +1207,11 @@ Data copyWith({  String? fabId,
   String? get groupName => _groupName;
   String? get groupId => _groupId;
   String? get shipName => _shipName;
+  String? get holeInfoId => _holeInfoId;
+  String? get notchInfoId => _notchInfoId;
+  String? get holeInfo => _holeInfo;
+  String? get notchInfo => _notchInfo;
   String? get shipId => _shipId;
-  String? get weight => _weight;
-  String? get weldLen => _weldLen;
   String? get ptargetDateTime => _ptargetDateTime;
   String? get flagEnd => _flagEnd;
   String? get mailAddress => _mailAddress;
@@ -888,10 +1219,27 @@ Data copyWith({  String? fabId,
   String? get presultTypeName => _presultTypeName;
   String? get updateTime => _updateTime;
   String? get presultId => _presultId;
-  String? get updatedAt => _updatedAt;
   String? get pTargetId => _pTargetId;
   String? get workProcessId => _workProcessId;
   String? get compSecId => _compSecId;
+  String? get updatedAt => _updatedAt;
+  String? get inpFace => _inpFace;
+  String? get panel => _panel;
+  String? get pair => _pair;
+  String? get kindName => _kindName;
+  String? get materialStdF => _materialStdF;
+  String? get materialStdW => _materialStdW;
+  String? get leftEndJointName => _leftEndJointName;
+  String? get leftEndEdgeBuhinId => _leftEndEdgeBuhinId;
+  String? get leftEndFirstCount => _leftEndFirstCount;
+  String? get leftEndScallopCount => _leftEndScallopCount;
+  String? get rightEndJointName => _rightEndJointName;
+  String? get rightEndEdgeBuhinId => _rightEndEdgeBuhinId;
+  String? get rightEndFirstCount => _rightEndFirstCount;
+  String? get rightEndScallopCount => _rightEndScallopCount;
+  String? get componentInfoBaseId => _componentInfoBaseId;
+  String? get componentInfoId => _componentInfoId;
+  String? get componentInfoBuzaiId => _componentInfoBuzaiId;
   String? get flagLate => _flagLate;
 
   Map<String, dynamic> toJson() {
@@ -901,15 +1249,31 @@ Data copyWith({  String? fabId,
     map['kouji_name'] = _koujiName;
     map['header_mark'] = _headerMark;
     map['color'] = _color;
-    map['shiguchi_id'] = _shiguchiId;
+    map['buzai_kind_id'] = _buzaiKindId;
+    map['buzai_kind_name'] = _buzaiKindName;
+    map['buzai_id'] = _buzaiId;
     map['buzai_name'] = _buzaiName;
     map['comp_info_kind_name'] = _compInfoKindName;
+    map['remark'] = _remark;
+    map['material_kind_bz'] = _materialKindBz;
+    map['material_std_f_bz'] = _materialStdFBz;
+    map['material_std_w_bz'] = _materialStdWBz;
+    map['inp_face_bz'] = _inpFaceBz;
+    map['inp_face_id'] = _inpFaceId;
+    map['panel_id'] = _panelId;
+    map['pair_id'] = _pairId;
+    map['material_size'] = _materialSize;
+    map['length'] = _length;
+    map['expand'] = _expand;
+    map['weight'] = _weight;
+    map['weld_len'] = _weldLen;
+    map['hanch_type'] = _hanchType;
+    map['crush'] = _crush;
     map['result_type_mode'] = _resultTypeMode;
     map['seihin_name'] = _seihinName;
     map['floor_name'] = _floorName;
     map['floor_id'] = _floorId;
     map['stanza'] = _stanza;
-    map['component_info_base_id'] = _componentInfoBaseId;
     map['keyplan_name_1'] = _keyplanName1;
     map['keyplan_name_2'] = _keyplanName2;
     map['area_name'] = _areaName;
@@ -923,9 +1287,11 @@ Data copyWith({  String? fabId,
     map['group_name'] = _groupName;
     map['group_id'] = _groupId;
     map['ship_name'] = _shipName;
+    map['hole_info_id'] = _holeInfoId;
+    map['notch_info_id'] = _notchInfoId;
+    map['hole_info'] = _holeInfo;
+    map['notch_info'] = _notchInfo;
     map['ship_id'] = _shipId;
-    map['weight'] = _weight;
-    map['weld_len'] = _weldLen;
     map['ptarget_date_time'] = _ptargetDateTime;
     map['flag_end'] = _flagEnd;
     map['mail_address'] = _mailAddress;
@@ -933,12 +1299,31 @@ Data copyWith({  String? fabId,
     map['presult_type_name'] = _presultTypeName;
     map['update_time'] = _updateTime;
     map['presult_id'] = _presultId;
-    map['updated_at'] = _updatedAt;
     map['p_target_id'] = _pTargetId;
     map['work_process_id'] = _workProcessId;
     map['comp_sec_id'] = _compSecId;
+    map['updated_at'] = _updatedAt;
+    map['inp_face'] = _inpFace;
+    map['panel'] = _panel;
+    map['pair'] = _pair;
+    map['kind_name'] = _kindName;
+    map['material_std_f'] = _materialStdF;
+    map['material_std_w'] = _materialStdW;
+    map['left_end_joint_name'] = _leftEndJointName;
+    map['left_end_edge_buhin_id'] = _leftEndEdgeBuhinId;
+    map['left_end_first_count'] = _leftEndFirstCount;
+    map['left_end_scallop_count'] = _leftEndScallopCount;
+    map['right_end_joint_name'] = _rightEndJointName;
+    map['right_end_edge_buhin_id'] = _rightEndEdgeBuhinId;
+    map['right_end_first_count'] = _rightEndFirstCount;
+    map['right_end_scallop_count'] = _rightEndScallopCount;
+    map['component_info_base_id'] = _componentInfoBaseId;
+    map['component_info_id'] = _componentInfoId;
+    map['component_info_buzai_id'] = _componentInfoBuzaiId;
     map['flag_late'] = _flagLate;
     return map;
   }
+
+
 
 }

@@ -1,12 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:music_app/config/logger.dart';
+import 'package:music_app/features/data/shared_preferences/production_shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    String uuid = GetIt.instance.get<ProductionSharedPreferences>().user?.uuid ?? "";
     logi.d('REQUEST[${options.method}] => PATH: ${options.path}');
     options.headers["version"] = "1.0.0";
-    options.headers["X-SFPM-UUID"] = "9b338855-3ee0-46ae-948c-0a6ba99aac35";
+    options.headers["X-SFPM-UUID"] = uuid;
     options.headers["device"] = "1";
     return super.onRequest(options, handler);
   }

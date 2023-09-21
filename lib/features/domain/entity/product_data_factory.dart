@@ -4,19 +4,20 @@ import 'package:music_app/features/domain/entity/product_data.dart';
 
 class ProductDataFactory {
   final List<List<ProductData>> _cellData = [];
-  final List<OptionItem> _columns = [
-    OptionItem("工事", true, false, true, "kouji_name"),
-    OptionItem("頭番", true, false, true, "header_mark"),
-    OptionItem("コア符号", true, false, true, "buzai_name"),
-    OptionItem("製品符号", true, false, true, "seihin_name"),
-    OptionItem("階", true, false, true, "floor_name")
-  ];
+  final List<OptionItem> _columns = [];
 
   void addCellData(List<List<ProductData>> data,bool isRefresh){
     if(isRefresh){
       _cellData.clear();
     }
     _cellData.addAll(data);
+  }
+
+  void addColumns(List<OptionItem> columns,bool isRefresh){
+    if(isRefresh){
+      _columns.clear();
+    }
+    _columns.addAll(columns);
   }
 
   bool isCheckAll() => _cellData.every((element) => element.every((element) => element.isCheck));
@@ -34,6 +35,7 @@ class ProductDataFactory {
   }
 
   List<List<ProductData>> getData() => _cellData;
+  List<OptionItem> getColumns() => _columns;
 
   List<OptionItem> fakeColum(){
     return _columns;
